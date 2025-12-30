@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Bảng điều khiển giáo viên</h3>
+
+<div class="mb-3 d-flex flex-wrap gap-2">
+  <a class="btn btn-primary" href="{{ url_for('new_request') }}">Tạo yêu cầu đăng ký</a>
+  <a class="btn btn-outline-secondary" href="{{ url_for('schedule') }}">Xem lịch của tôi</a>
+  <a class="btn btn-outline-secondary" href="{{ url_for('schedule', by='teacher') }}">Lịch theo giáo viên</a>
+</div>
+
+<h5>Yêu cầu của tôi</h5>
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Ngày</th>
+        <th>Tiết</th>
+        <th>Lớp</th>
+        <th>Nhóm phòng</th>
+        <th>Trạng thái</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in my_requests %}
+      <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ r.date.strftime('%d/%m/%Y') }}</td>
+        <td>{{ r.period }}</td>
+        <td>{{ r.class_name }}</td>
+        <td>{{ r.lab_group }}</td>
+        <td>
+          <span class="badge text-bg-{% if r.status=='scheduled' %}success{% elif r.status=='conflict' %}danger{% elif r.status=='approved' %}warning{% else %}secondary{% endif %}">
+            {{ r.status }}
+          </span>
+        </td>
+      </tr>
+      {% else %}
+      <tr><td colspan="6" class="text-muted">Chưa có yêu cầu.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

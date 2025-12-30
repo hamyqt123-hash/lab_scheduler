@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-2">
+  <h3>Lịch theo giáo viên</h3>
+  <div class="d-flex gap-2">
+    <a class="btn btn-outline-primary btn-sm" href="{{ url_for('schedule') }}">Lịch chung</a>
+    <a class="btn btn-secondary btn-sm" href="{{ url_for('dashboard') }}">Quay lại</a>
+  </div>
+</div>
+
+{% for b in teacher_blocks %}
+  <div class="card mb-3">
+    <div class="card-header">
+      <b>{{ b.teacher_name }}</b>
+      {% if b.group_name %}<span class="text-muted"> — {{ b.group_name }}</span>{% endif %}
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-striped mb-0">
+          <thead>
+            <tr>
+              <th>Ngày</th>
+              <th>Tiết</th>
+              <th>Lớp</th>
+              <th>Phòng</th>
+              <th>Nhóm phòng</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for it in b.rows %}
+            <tr>
+              <td>{{ it.date_str }}</td>
+              <td>{{ it.period }}</td>
+              <td>{{ it.class_name }}</td>
+              <td>{{ it.lab_name }}</td>
+              <td>{{ it.subject_group }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="5" class="text-muted">Chưa có lịch.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+
+{% endblock %}

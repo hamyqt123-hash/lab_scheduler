@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Quản lý phòng thực hành</h3>
+
+<div class="card mb-3">
+  <div class="card-body">
+    <h5 class="mb-3">Thêm phòng</h5>
+    <form class="row g-2" method="post">
+      <div class="col-md-6">
+        <label class="form-label">Tên phòng</label>
+        <input class="form-control" name="name" required>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Tổ/Nhóm bộ môn</label>
+        <input class="form-control" name="subject_group" value="Tin học" required>
+      </div>
+      <div class="col-md-2 d-flex align-items-end">
+        <button class="btn btn-primary w-100" type="submit">Thêm</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-striped align-middle">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Nhóm</th>
+        <th>Tên phòng</th>
+        <th>Sức chứa</th>
+        <th>Trạng thái</th>
+        <th class="text-end">Thao tác</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for lab in labs %}
+      <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ lab.subject_group }}</td>
+        <td>{{ lab.name }}</td>
+        <td>{{ lab.capacity }}</td>
+        <td>
+          <span class="badge text-bg-{{ 'success' if lab.is_active else 'secondary' }}">
+            {{ 'Đang hoạt động' if lab.is_active else 'Đã tắt' }}
+          </span>
+        </td>
+        <td class="text-end">
+          <form class="d-inline" method="post" action="{{ url_for('admin_toggle_lab', lab_id=lab.id) }}">
+            <button class="btn btn-sm btn-outline-secondary" type="submit">{{ 'Tắt' if lab.is_active else 'Mở' }}</button>
+          </form>
+          <form class="d-inline" method="post" action="{{ url_for('admin_delete_lab', lab_id=lab.id) }}"
+                onsubmit="return confirm('Xoá phòng này?');">
+            <button class="btn btn-sm btn-outline-danger" type="submit">Xoá</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<a class="btn btn-secondary" href="{{ url_for('dashboard') }}">Quay lại</a>
+{% endblock %}

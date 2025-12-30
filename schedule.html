@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-2">
+  <h3>Lịch phòng</h3>
+  <div class="d-flex gap-2">
+    <a class="btn btn-outline-primary btn-sm" href="{{ url_for('schedule', by='teacher') }}">Lịch theo giáo viên</a>
+    <a class="btn btn-secondary btn-sm" href="{{ url_for('dashboard') }}">Quay lại</a>
+  </div>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Ngày</th>
+        <th>Tiết</th>
+        <th>Phòng</th>
+        <th>GV</th>
+        <th>Lớp</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in reservations %}
+      <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ r.date.strftime('%d/%m/%Y') }}</td>
+        <td>{{ r.period }}</td>
+        <td>{{ r.lab.name }}</td>
+        <td>{{ r.lab_request.teacher.full_name }}</td>
+        <td>{{ r.lab_request.class_name }}</td>
+      </tr>
+      {% else %}
+      <tr><td colspan="6" class="text-muted">Chưa có lịch.</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
