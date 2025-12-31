@@ -1384,6 +1384,17 @@ def admin_reports():
 def admin_monthly_report():
     return redirect(url_for("admin_reports"))
 
+def setup_app():
+    """Khởi tạo DB và dữ liệu mặc định, dùng cho cả local & Render."""
+    with app.app_context():
+        db.create_all()
+        ensure_schema_sqlite()
+        ensure_default_labs_and_rename()
+        init_default_users()
+        ensure_reservations_for_scheduled_requests()
+
+# GỌI NGAY KHI IMPORT MODULE (Render cũng chạy đoạn này)
+setup_app()
 
 # ================== MAIN ===========================
 if __name__ == "__main__":
