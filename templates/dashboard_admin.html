@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Bảng điều khiển quản trị</h3>
+
+<div class="row mb-3">
+  <div class="col-md-3">
+    <div class="card text-bg-primary mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Tổng yêu cầu</h5>
+        <p class="card-text fs-4">{{ total_requests }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card text-bg-success mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Đã xếp lịch</h5>
+        <p class="card-text fs-4">{{ scheduled_count }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card text-bg-warning mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Đang chờ / Đã duyệt</h5>
+        <p class="card-text fs-4">{{ pending_count }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card text-bg-danger mb-3">
+      <div class="card-body">
+        <h5 class="card-title">Xung đột</h5>
+        <p class="card-text fs-4">{{ conflict_count }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mb-3 d-flex flex-wrap gap-2">
+  <a class="btn btn-outline-primary" href="{{ url_for('admin_weeks') }}">Quản lý tuần đăng ký</a>
+  <a class="btn btn-outline-primary" href="{{ url_for('admin_requests') }}">Quản lý yêu cầu &amp; xếp lịch</a>
+  <a class="btn btn-outline-primary" href="{{ url_for('schedule') }}">Xem lịch phòng</a>
+  <a class="btn btn-outline-success" href="{{ url_for('schedule', by='teacher') }}">Lịch theo giáo viên</a>
+  <a class="btn btn-outline-success" href="{{ url_for('admin_teachers') }}">Quản lý giáo viên / Cấp tài khoản</a>
+  <a class="btn btn-outline-success" href="{{ url_for('admin_labs') }}">Quản lý phòng thực hành</a>
+  <a class="btn btn-outline-success" href="{{ url_for('admin_reports') }}">Báo cáo</a>
+</div>
+{% endblock %}
