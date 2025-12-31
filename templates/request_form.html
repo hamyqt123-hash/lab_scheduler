@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Đăng ký phòng thực hành</h3>
+
+<div class="card shadow-sm">
+  <div class="card-body">
+    <form method="post">
+      <div class="row g-2">
+        <div class="col-md-6">
+          <label class="form-label">Lớp</label>
+          <input class="form-control" name="class_name" required>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Tiết</label>
+          <input class="form-control" name="period" type="number" min="1" max="10" required>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Nhóm phòng</label>
+          <select class="form-select" name="lab_group">
+            {% for g in groups %}
+              <option value="{{ g }}">{{ g }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="row g-2">
+        <div class="col-md-6">
+          <label class="form-label">Đăng ký theo tuần</label>
+          <select class="form-select" name="week_id">
+            <option value="">-- Không chọn (đăng ký theo ngày) --</option>
+            {% for w in weeks %}
+              <option value="{{ w.id }}">Tuần {{ w.week_no }} ({{ w.school_year }}) — {{ w.start_date.strftime('%d/%m') }}→{{ w.end_date.strftime('%d/%m') }}</option>
+            {% endfor %}
+          </select>
+          <div class="form-text">Nếu chọn tuần, hãy chọn thêm Thứ.</div>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Thứ</label>
+          <select class="form-select" name="weekday">
+            <option value="">--</option>
+            <option value="0">Thứ 2</option>
+            <option value="1">Thứ 3</option>
+            <option value="2">Thứ 4</option>
+            <option value="3">Thứ 5</option>
+            <option value="4">Thứ 6</option>
+            <option value="5">Thứ 7</option>
+            <option value="6">Chủ nhật</option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Hoặc chọn ngày</label>
+          <input class="form-control" type="date" name="date">
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="row g-2">
+        <div class="col-md-6">
+          <label class="form-label">Phòng ưu tiên (tuỳ chọn)</label>
+          <select class="form-select" name="preferred_lab_id">
+            <option value="">-- Không chọn --</option>
+            {% for lab in labs %}
+              <option value="{{ lab.id }}">{{ lab.subject_group }} - {{ lab.name }}</option>
+            {% endfor %}
+          </select>
+          <div class="form-text">Nếu chọn phòng ưu tiên, hệ thống sẽ tự dùng đúng nhóm phòng theo phòng đó.</div>
+        </div>
+      </div>
+
+      <div class="mt-3 d-flex gap-2">
+        <button class="btn btn-primary" type="submit">Gửi yêu cầu</button>
+        <a class="btn btn-secondary" href="{{ url_for('dashboard') }}">Quay lại</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
