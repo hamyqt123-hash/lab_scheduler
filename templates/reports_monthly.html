@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Báo cáo sử dụng phòng thực hành theo tháng</h3>
+
+<form method="post" class="row g-3 mb-3">
+    <div class="col-auto">
+        <label class="form-label">Tháng:</label>
+        <input type="number" name="month" class="form-control" min="1" max="12" value="{{ month }}">
+    </div>
+    <div class="col-auto">
+        <label class="form-label">Năm:</label>
+        <input type="number" name="year" class="form-control" value="{{ year }}">
+    </div>
+    <div class="col-auto align-self-end">
+        <button type="submit" class="btn btn-primary">Xem báo cáo</button>
+    </div>
+</form>
+
+<h5>Báo cáo theo giáo viên</h5>
+{% if teacher_stats %}
+<table class="table table-sm table-striped">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Giáo viên</th>
+        <th>Tổ/nhóm</th>
+        <th>SĐT</th>
+        <th>Số tiết thực hành</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for t in teacher_stats %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ t.full_name }}</td>
+            <td>{{ t.group_name or '-' }}</td>
+            <td>{{ t.phone or '-' }}</td>
+            <td>{{ t.total_periods }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>Không có dữ liệu trong tháng này.</p>
+{% endif %}
+
+<hr>
+
+<h5>Báo cáo tổng hợp theo phòng máy</h5>
+{% if lab_stats %}
+<table class="table table-sm table-striped">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Phòng máy</th>
+        <th>Số tiết sử dụng</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for l in lab_stats %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ l.name }}</td>
+            <td>{{ l.total_periods }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>Không có lịch sử dụng phòng trong tháng này.</p>
+{% endif %}
+
+<a href="{{ url_for('dashboard') }}" class="btn btn-secondary mt-3">Quay lại</a>
+{% endblock %}
